@@ -90,3 +90,12 @@ MVC(Model-View-Controller) 패턴
 
 ### 3.3.3 URLconf - URL 정의
 
+장고는 request를 받으면 요청이 들어있는 URL을 분석한다.
+URL이 urls.py에 정의된 URL 패턴과 매칭이 되는지 분석한다.
+
+파이썬의 URL 정의방식이 기존 자바, PHP 계열의 URL보다 직관적이며 이해하기 쉬워 우아한 URL이라고 부른다.
+
+`urls.py` 파일에 URL과 처리 함수(뷰)를 매핑하는 파이썬 코드를 작성한다. 이러한 URL/뷰 매핑을 URLconf라고 함.
+
+URL 분석하는 순서
+* setting.py
