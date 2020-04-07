@@ -128,27 +128,89 @@ URL 분석하는 순서
 
 ### 3.5.1 프로젝트 생성
 
+```bash
+$ dajango-admin startproject [project_name]
+
+```
+
 ### 3.5.2 애플리케이션 생성
+
+```bash
+$ cd [project_name]
+$ python manage.py startapp [application_name]
+```
 
 ### 3.5.3 프로젝트 설정 파일 변경
 
+```bash
+$ vi settings.py
+```
+
+```python
+# ALLOWED_HOST, default=localhost
+ALLOWED_HOST = ['host-server-ip', 'localhost', '127.0.0.1']
+
+# INSTALLED APPS
+INSTALLED_APPS = [
+  '',
+  '',
+  '[application-name].apps.PollsConfig',
+]
+
+# DB default=SQLite3
+DATABASES = {}
+
+# TIMEZONE, default=UTC
+TIME_ZONE = 'Asia/Seoul'
+```
+
 ### 3.5.4 기본 테이블 생성
 
+```bash
+$ python manage.py migrate
+```
+
 ### 3.5.5 지금까지 작업 확인하기
+
+```bash
+$ python manage.py runserver 0.0.0.0:8000
+$ python manage.py createsuperuser
+```
 
 ## 3.6 애플리케이션 개발하기 - Model 코딩
 
 ### 3.6.1 테이블 정의
 
+```bash
+$ vi [application_name]/models.py
+```
+
 ### 3.6.2 Admin 사이트에 테이블 반영
+
+```
+$ vi [application_name]/admin.py
+```
 
 ### 3.6.3 데이터베이스 변경사항 반영
 
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
 ### 3.6.4 지금까지 작업 확인하기
+
+```
+http://127.0.0.1:8000/admin
+```
 
 ## 3.7 애플리케이션 개발하기 - View 및 Template 코딩
 
-### 3.7.1
+### 3.7.1 URLconf 코딩
+
+```bash
+vi [application_name]/urls.py
+```
 
 ### 3.7.2
 
