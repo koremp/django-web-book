@@ -322,6 +322,8 @@ Hello {{ name }}
 
 ### 4.4.1 HTML에서의 폼
 
+<form>...</form> 사이에 있는 엘리먼트들의 집합.
+
 * 폼을 통해 텍스트를 입력/항목 선택 가능
 * 간단한 엘리먼트
     * 예) 텍스트 입력, 체크 박스
@@ -387,24 +389,110 @@ Hello {{ name }}
 
 ### 4.3.3 폼 클래스로 폼 생성
 
-django.forms.Form
-TextInput
-is_valid()
+* 모든 폼 클래스는 `django.forms.Form`의 자식 클래스로 생성. 
+    * max_length
+        * 100글자 이상 입력 방지
+        * 데이터 길이 유효한지 검사
+* 디폴트 위젯 변경시 폼필드 정의시 명시적으로 지정
+
+```
+a = forms.CharField(label='asdf', max_length=n, widget=forms.Textarea)
+```
+
+* 장고 폼 클래스는 `is_valid()` 메소드를 가짐
+    * 유효성 검사 루틴을 실행
+    * 유효시
+        * True 반환
+        * 폼 데이터를 cleaned_data 속성에 넣는다.
 
 ### 4.4.4 뷰에서 폼 클래스 처리
+
+
 
 ### 4.4.5 폼 클래스를 템플릿으로 변환
 
 ## 4.5 클래스형 뷰
 
+뷰
+* 요청 받아 응답 반환하는 호출 가능한 객체(callable)
+* 함수형 뷰
+* 클래스형 뷰
+    * 상속과 믹스인 기능을 사용해서 코드를 재사용
+    * 뷰를 체게젹으로 구성
+
 ### 4.5.1 클래스형 뷰의 시작점
+
+URLconf에서 함수형 뷰가 아니라 클래스형 뷰를 사용한다는 점을 표시
+
+```python
+# urls.py
+
+from django.urls import path
+from myapp.views import MyView
+
+urlpatterns = [
+    path('about/', MyView.as_view()),
+]
+```
+
+as_view() 진입 메서드
+* 클래스의 인스턴스 생성
+* 그 인스턴스의 dispatch() 메서드를 호출
+
+dispatch() 메서드
+* 요청 검사 후 어떤 HTTP 메서드로 요청되었는지 구분
+* 인스턴스 내 해당 이름을 갖는 메서드로 요청 redirection
+* 해당 메서드 미정의시 `HttpRespojnseNotAllowed` 익셉션 발생
 
 ### 4.5.2 클래스형 뷰의 장점 - 효율적인 메소드 구분
 
+클래스형 뷰 > 함수형 뷰
+* HTTP 메서드에 따른 처리 기능 코딩시 메서드명으로 구분하여 깔끔한 코드의 구조 유지
+* 다중 상속같은 객체 지향 기술 가능하므로, 클래스형 제네릭 뷰 및 믹스인 클래스 사용 가능, 코드의 재사용성 및 개발 생산성 향상
+
 ### 4.5.3 클래스형 뷰의 장점 - 상속 기능 가능
+
+제네릭 뷰
+* 장고에서 뷰 개발 과정 중 공통 기능을 추상화하여 기본적으로 제공해주는 클래스형 뷰
+* 상속 가능
+* 오버라이딩 가능
+
+```python
+# some_app/urls.py
+
+from django.urls. import path
+from django.views.generic import TemplateView
+
+urlpatterns = [
+    path('about/', TemplateView.as_view(template_name="about_html")),
+]
+```
 
 ### 4.5.4 클래스형 제네릭 뷰
 
+제네릭 뷰
+* 장고에서 공통된 로직을 미리 개발해 놓고 제공하는 뷰
+* 4가지로 분류 가능
+    * Base View
+        * 뷰 클래스 생성
+        * 다른 제네릭 뷰의 부모 클래스를 제공하는 기본 제네릭 뷰
+    * Generic Display View
+        * 객체 리스트, 특정 객채의 상세 정보 표시
+    * Generic Edit View
+        * 폼을 통한 객체 생성, 수정, 삭제 기능 제공
+    * Generic Date View
+        * 날짜 기반 객체의 연/월/일 페이지 구분하여 표시
+
 ### 4.5.5 클래스형 뷰에서 처리
+
+폼 처리 과정 분류
+* 최초의 GET
+    * 사용자에게 처음으로 폼을 보여줌
+* 유효한 데이터를 가진 POST
+    * 데이터 처리
+    * 주로 리다이렉트 처리
+* 유효하지 않은 데이터를 가진 POST
+    * 에러 메시지
+    * 폼 재출력
 
 ## 4.6 로그 남기기
