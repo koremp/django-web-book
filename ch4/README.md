@@ -556,3 +556,50 @@ Logger
     * 사용자 정의 포맷터 사용 가능
 
 ### 4.6.5 로거 사용 및 로거 이름 계층화
+
+장고의 로깅 설정은 settings.py 파일에서 작성
+
+적절한 위치에서 로거 취득 후 적절한 위치에서 로깅 메소드 호출
+
+모듈단위로 로그를 기록
+
+```python
+logger = logging.getLogger('project.interesting.stuff')
+```
+
+빈 문자열의 로거는 루트 로거(파이썬의 최상위 로거)가 됨
+
+로그의 계층화
+* 로깅 호출은 부모 로거에도 전파
+* 최상단 루트 로거에서 핸들러를 만들어도 하위 로거의 모든 로깅 호출을 잡을 수 있음
+
+### 4.6.6 장고의 디폴트 로깅 설정
+
+장고의 settings.py 파일의 LOGGING 항목에 로깅 속성을 사전형으로 정의 (dictConfig)
+
+### 4.6.7 장고의 로깅 추가 사항 정리
+
+
+
+### 4.6.8 로깅 설정 - 디폴트 설정 유지
+
+```py
+# mysite/settings.py
+
+LOGGING_CONFIG = 'logging.config.dictConfig'
+```
+
+### 4.6.9 로깅 설정 - 디폴트 설정 무시
+
+```py
+# mysite/settings.py
+
+LOGGING_CONFIG = None
+
+LOGGING = {
+    # STH
+}
+
+import logging.config
+logging.config.dictconfig(LOGGING)
+```
